@@ -1,4 +1,5 @@
 galaxy_info:
+  role_name: python
   author: yhiraki
   description: Install Python
 
