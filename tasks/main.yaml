@@ -1,4 +1,9 @@
 ---
+- name: Check Python installed
+  stat:
+    path: /usr/local/bin/python
+  register: bin_python
+
 # https://github.com/pyenv/pyenv/wiki
 - name: Install build depends
   apt:
@@ -21,12 +26,13 @@
     - wget
     - xz-utils
     - zlib1g-dev
-
+  when: not bin_python.stat.exists
 
 - name: Create tempfile
   tempfile:
     state: directory
   register: tempfile
+  when: not bin_python.stat.exists
 
 - name: Download Python source
   shell: >-
@@ -34,6 +40,7 @@
   args:
     chdir: "{{ tempfile.path }}"
     creates: "{{ tempfile.path }}/Python-{{ python_version }}"
+  when: not bin_python.stat.exists
 
 - name: Build Python
   shell: |
@@ -41,9 +48,11 @@
     make -j
   args:
     chdir: "{{ tempfile.path }}/Python-{{ python_version }}"
+  when: not bin_python.stat.exists
 
 - name: Install Python
   shell: make install
   args:
     chdir: "{{ tempfile.path }}/Python-{{ python_version }}"
   become: yes
+  when: not bin_python.stat.exists
