@@ -8,6 +8,7 @@
 - name: Install build depends
   apt:
     name: "{{ item }}"
+  become: yes
   with_items:
     - build-essential
     - curl
@@ -26,7 +27,6 @@
     - wget
     - xz-utils
     - zlib1g-dev
-become: yes
   when: not bin_python.stat.exists
 
 - name: Create tempfile
