@@ -26,6 +26,7 @@
     - wget
     - xz-utils
     - zlib1g-dev
+become: yes
   when: not bin_python.stat.exists
 
 - name: Create tempfile
