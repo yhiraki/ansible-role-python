@@ -1,7 +1,7 @@
 ---
 - name: Check Python installed
   stat:
-    path: /usr/local/bin/python
+    path: "{{ install_prefix }}/bin/python"
   register: bin_python
 
 # https://github.com/pyenv/pyenv/wiki
@@ -45,7 +45,7 @@
 
 - name: Build Python
   shell: |
-    ./configure
+    ./configure --prefix={{ install_prefix }}
     make -j
   args:
     chdir: "{{ tempfile.path }}/Python-{{ python_version }}"
