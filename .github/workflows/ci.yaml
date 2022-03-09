@@ -5,10 +5,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: |
+      - name: Install ansible
+        run: |
           sudo apt update
           sudo apt install ansible
-      - run: |
+      - name: Run playbook
+        run: |
           cd ..
           ansible-playbook ansible-role-python/tests/test.yaml
+      - name: Rerun playbook and no changed tasks
+        run: |
+          cd ..
           ansible-playbook ansible-role-python/tests/test.yaml | tail -2 | grep changed=0
