@@ -1,0 +1,49 @@
+---
+# https://github.com/pyenv/pyenv/wiki
+- name: Install build depends
+  apt:
+    name: "{{ item }}"
+  become: yes
+  with_items:
+    - build-essential
+    - curl
+    - libbz2-dev
+    - libffi-dev
+    - liblzma-dev
+    - libncursesw5-dev
+    - libreadline-dev
+    - libsqlite3-dev
+    - libssl-dev
+    - libxml2-dev
+    - libxmlsec1-dev
+    - llvm
+    - make
+    - tk-dev
+    - wget
+    - xz-utils
+    - zlib1g-dev
+
+- name: Create tempfile
+  tempfile:
+    state: directory
+  register: tempfile
+
+- name: Download Python source
+  shell: >-
+    curl -L https://www.python.org/ftp/python/{{ python_version }}/Python-{{ python_version }}.tgz | tar xzf -
+  args:
+    chdir: "{{ tempfile.path }}"
+    creates: "{{ tempfile.path }}/Python-{{ python_version }}"
+
+- name: Build Python
+  shell: |
+    ./configure --prefix={{ install_prefix }}
+    make -j
+  args:
+    chdir: "{{ tempfile.path }}/Python-{{ python_version }}"
+
+- name: Install Python
+  shell: make install
+  args:
+    chdir: "{{ tempfile.path }}/Python-{{ python_version }}"
+  become: yes
