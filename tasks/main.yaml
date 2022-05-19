@@ -4,11 +4,5 @@
     path: "{{ install_prefix }}/bin/python3"
   register: bin_python
 
-- fail:
-    msg: OS is Unsupported.
-  when: |
-    not bin_python.stat.exists
-    and ansible_facts['os_family'] != "Debian"
-
-- include_tasks: install.yaml
+- include_tasks: build_and_install.yaml
   when: not bin_python.stat.exists

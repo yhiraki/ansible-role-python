@@ -3,4 +3,4 @@
   remote_user: root
   roles:
     - role: ansible-role-python
-      install_prefix: /usr/local/python
+      install_prefix: /tmp/local
