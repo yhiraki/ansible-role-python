@@ -2,12 +2,10 @@
 # https://github.com/pyenv/pyenv/wiki
 - name: Install build depends (homebrew)
   homebrew:
-    name: "{{ item }}"
-  # become: yes
-  with_items:
-    - openssl
-    - readline
-    - sqlite3
-    - tcl-tk
-    - xz
-    - zlib
+    name: 
+      - openssl
+      - readline
+      - sqlite3
+      - tcl-tk
+      - xz
+      - zlib
