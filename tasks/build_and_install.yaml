@@ -15,7 +15,7 @@
 
 - name: Build Python
   shell: |
-    ./configure --prefix={{ install_prefix }}
+    ./configure --prefix={{ install_prefix }} {{ build_args }}
     make -j
   args:
     chdir: "{{ tempfile.path }}/Python-{{ python_version }}"
